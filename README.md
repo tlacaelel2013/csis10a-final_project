@@ -10,7 +10,7 @@ The difficulty I see for this case is how to change the color of every pixel in 
 ## [2] Tunnel.
 
 I would be interested in drawing a tunnel in perspective simulating the view a user would have when driving a car inside of the tunnel.
-The user might control de speed at which he or she approaches the tunnel.
+The user might control the speed at which he or she approaches the tunnel.
 
 ## [3] Simplifying algebraic expressions.
 
