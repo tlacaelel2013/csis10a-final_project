@@ -15,5 +15,5 @@ The user might control the speed at which he or she approaches the tunnel.
 ## [3] Simplifying algebraic expressions.
 
 This might be a command line program for the user to input an algebraic expression to be simplified.
-
+In its first version, program Algebrator will only add and multiply like terms.
 
