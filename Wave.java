@@ -1,6 +1,7 @@
 
 /**
- * A Wave is an actor that grows overtime and cahnges its color.
+ * A Wave is an actor that grows overtime and changes its color. It works more like a
+ * perturbation or disturbance of a medium.
  * 
  * @author: Luis Acevedo-Arreguin. 
  * @version: May 14, 2014.
@@ -18,6 +19,7 @@ public class Wave extends Actor
 {
     // instance variables
     private Color myColor = Color.YELLOW;
+   
 
     /**
      * Constructor for objects of class Wave
@@ -26,53 +28,83 @@ public class Wave extends Actor
     {
         // initialise instance variables
         setColor(myColor);
+        
     }
 
     public Wave(Color newColor)
     {
         // initialise instance variables
         setColor(newColor);
+        // source = true;
     }
 
     /**
      * 
-     * Causes the wave to grow and its color to change accordingly.
+     * Causes the wave to grow and change its color.
      */
     public void act()
     {
         grow();
+        updateColor(getColor());
+       
     }
 
-    private void grow() {
-        //Wave[] child = new Wave[9];
-        Color[] neighborColor = new Color[8];
+    public void grow() {
+
         for (int i=0; i<9; i++) {
+            setDirection(45*i);
             if (canGrow()) {
                 Grid<Actor> gr = getGrid();
-                //child[i] = new Wave();
-                //child[i].putSelfInGrid(gr, getNextLocation());
+
                 Wave child = new Wave();
                 child.putSelfInGrid(gr, getNextLocation());
-                child.setDirection(getDirection());
-                // Change color following method Act in class Flower:
-
-                for (int j=0; j<8; j++) {
-                    if (getNeighbor() != null) neighborColor[j] = getColor();
-                    child.setColor(neighborColor);    
-
-                    turn(45*j);
-
-                }
-
+                child.updateColor(getColor());
             }
-            turn(45*i);
+
         }
 
     }
 
     public boolean canGrow() {
         Location next = getNextLocation();
-        return isValid(next);
+        return (isValid(next) && getNeighbor() == null);
+    }
+
+    public void updateColor(Color c) {
+        Color[] neighborColor = new Color[8];
+
+        for (int j=0; j<8; j++) {
+
+            setDirection(45*j);
+
+            if (getNeighbor() instanceof Wave) { 
+                neighborColor[j] = getNeighbor().getColor();
+            }
+            else {
+                neighborColor[j] = c;
+            }
+            setColor(neighborColor);    
+
+        }
+
+    }
+
+    private void setColor(Color[] c) {
+        double red = 0.0, green = 255.0, blue = 255.0;
+        if (c[0] != null) {
+            red = c[0].getRed()/8.0;
+            green = c[0].getGreen()/8.0;
+            blue = c[0].getBlue()/8.0;
+        }
+        for (int i=1; i<8; i++) {
+            if (c[i] != null) {
+                red = red + c[i].getRed()/8.0;
+                green = green + c[i].getGreen()/8.0;
+                blue = blue + c[i].getBlue()/8.0;
+            }
+        }
+        setColor(new Color((int) red, (int) green, (int) blue));
+
     }
 
     /*
@@ -110,24 +142,6 @@ public class Wave extends Actor
      */
     private boolean isValid(Location loc) {
         return getGrid().isValid(loc);
-    }
-
-    private void setColor(Color[] c) {
-        double red = 255.0, green = 255.0, blue = 255.0;
-        if (c[0] != null) {
-            red = c[0].getRed()/8.0;
-            green = c[0].getGreen()/8.0;
-            blue = c[0].getBlue()/8.0;
-        }
-        for (int i=1; i<8; i++) {
-            if (c[i] != null) {
-                red = red + c[i].getRed()/8.0;
-                green = green + c[i].getGreen()/8.0;
-                blue = blue + c[i].getBlue()/8.0;
-            }
-        }
-        setColor(new Color((int) red, (int) green, (int) blue));
-
     }
 
 }
