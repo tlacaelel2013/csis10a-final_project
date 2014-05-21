@@ -6,6 +6,7 @@
  * @version: May 14, 2014.
  */
 
+import info.gridworld.gui.GUIController;
 import info.gridworld.actor.ActorWorld;
 import info.gridworld.grid.Location;
 
