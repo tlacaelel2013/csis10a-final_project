@@ -5,6 +5,8 @@
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
+import static java.lang.Math.log;
+
 /**
  * Created by section one on 5/23/14.
  */
@@ -70,14 +72,14 @@ class Spot extends Circle {
 
         setStatus(1);
         int pos = getPos();
-        double denom = 4.5;
+        double denom = 6;
 
         // System.out.println("position = " + pos);
 
         Color newColor = (Color) getFill();
-        double red = 0 * (denom - 4) / denom; //(int) (newColor.getRed()/2);
-        double green = 1 * (denom - 4) / denom; // (int) (newColor.getGreen()/2);
-        double blue = 1 * (denom - 4) / denom; // (int) (newColor.getBlue()/2);
+        double red = newColor.getRed() * (denom - 4) / denom; //(int) (newColor.getRed()/2);
+        double green = newColor.getGreen() * (denom - 4) / denom; // (int) (newColor.getGreen()/2);
+        double blue = newColor.getBlue() * (denom - 4) / denom; // (int) (newColor.getBlue()/2);
 
         if (pos - row >= 0) {
             Color red1 = (Color) (spotGrid[pos - row].getFill());
@@ -117,7 +119,7 @@ class Spot extends Circle {
             Color blue1 = (Color) spotGrid[pos - 1].getFill();
             blue += (blue1.getBlue() / denom);
 
-            //    System.out.println("rgb1 = " + red1.getRed() + ", " + green1.getGreen() + ", " + blue1.getBlue());
+            //System.out.println("rgb1 = " + red1.getRed() + ", " + green1.getGreen() + ", " + blue1.getBlue());
 
 
         }
@@ -127,6 +129,41 @@ class Spot extends Circle {
         setFill(Color.rgb((int) (255 * red), (int) (255 * green), (int) (255 * blue)));
 
         //setFill(newColor);
+        //Color[] colormap = new Color[256];
+        //for (int m = 0; m < colormap.length; m++) {
+        //    colormap[m] = Color.rgb(255-m,0,m);
+        //}
+
+
+        Color[] colormap = new Color[3*256];
+        for (int m = 0; m < colormap.length; m++) {
+            colormap[m] = Color.rgb((767-m)/3,255-m%128,m/3);
+            //colormap[m] = Color.rgb((767-m)/3,m%256,m/3);
+        }
+        /**
+        Color[] colormap = new Color[3*256];
+        for (int m = 0; m < colormap.length/3; m++) {
+            colormap[m] = Color.rgb(0,m,m);
+        }
+        //Color[] colormap = new Color[256];
+        for (int m = colormap.length/3; m < colormap.length*2/3; m++) {
+            //colormap[m] = Color.rgb(255-m+256,255-m+256,m-256);
+            colormap[m] = Color.rgb(m-256,511-m,m-256);
+        }
+        //Color[] colormap = new Color[256];
+        for (int m = colormap.length*2/3; m < colormap.length; m++) {
+            //colormap[m] = Color.rgb(0,255-m+512,m-512);
+            colormap[m] = Color.rgb(767-m,0,m-512);
+        }
+         */
+
+        setFill(colormap[(int) (3*255*(0*red + 0*green + 1*blue))]);
+
+        //setFill(colormap[(int) (255*(0.299*red + 0.587*green + 0.114*blue))]);
+        //setFill(colormap[(int) (255*(0*red + 0*green + 1*blue))]);
+
+        //setFill(colormap[(int) (255*log(255*(0.299*red + 0.587*green + 0.114*blue))/log(256))]);
+        //setFill(colormap[(int) (255*(0.333*red + 0.333*green + 0.333*blue))]);
 
       /*//
         if (pos-row>=0) spotGrid[pos-row].setFill(Color.rgb((int) red, (int) green, (int) blue));

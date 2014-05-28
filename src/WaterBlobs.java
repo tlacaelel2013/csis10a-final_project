@@ -51,7 +51,7 @@ public class WaterBlobs extends Application {
         final int pad = 100;
         final int deltaX = 10;
         final int deltaY = 10;
-        final double rad = 50.0;
+        final double rad = 5.0;
 
         final Spot[] spotGrid = new Spot[row * col];
         for (int i = 1; i <= row; i++) {
@@ -61,8 +61,8 @@ public class WaterBlobs extends Application {
                 spotGrid[pos].setRadius(rad);
                 spotGrid[pos].setCenterX(dim * j + pad + deltaX);
                 spotGrid[pos].setCenterY(dim * i + pad + deltaY);
-                spotGrid[pos].setRadius(2);
-                spotGrid[pos].setFill(Color.FUCHSIA);
+
+                spotGrid[pos].setFill(Color.BLUE);
                 spotGrid[pos].setPos(pos);
                 canvas.getChildren().add(spotGrid[pos]);
 
@@ -81,6 +81,7 @@ public class WaterBlobs extends Application {
         int pos = 500;
         final int flag[] = new int[row * col];
 
+        spotGrid[pos].setRadius(2);
         spotGrid[pos].setFill(Color.BLACK);
         System.out.println("coordinates: " + spotGrid[pos].getCenterX() + ", " + spotGrid[pos].getCenterY());
         System.out.println("status = " + spotGrid[pos].getStatus());
@@ -132,7 +133,7 @@ public class WaterBlobs extends Application {
 
                     spotGrid[loc].setStatus(2);
                     flag[loc] = 2;
-                    spotGrid[loc].setFill(Color.RED);
+                    spotGrid[loc].setFill(Color.BLUE);
                     spotGrid[loc].setCenterX((event.getY() - pad - deltaX) / dim);
                     spotGrid[loc].setCenterY((event.getX() - pad - deltaY) / dim);
 
@@ -174,7 +175,7 @@ public class WaterBlobs extends Application {
 
 
 
-        final Timeline loop = new Timeline(new KeyFrame(Duration.millis(10), new EventHandler<ActionEvent>() {
+        final Timeline loop = new Timeline(new KeyFrame(Duration.millis(80), new EventHandler<ActionEvent>() {
         //final Timeline loop = new Timeline(new KeyFrame(Duration.millis(100), new EventHandler<ActionEvent>() {
 
 
@@ -222,12 +223,12 @@ public class WaterBlobs extends Application {
 
 
 
-                if (timeIndex % 25 == 0) {
+                if (timeIndex % 50 == 0) {
                     //running = false;
                     for (int k = 0; k < row * col; k++) {
 
                         if (flag[k] == 2 && spotGrid[k].getFill().equals(Color.BLACK)) {
-                            spotGrid[k].setFill(Color.YELLOW);
+                            spotGrid[k].setFill(Color.BLUE);
                         } else if (flag[k] == 2 && !spotGrid[k].getFill().equals(Color.BLACK)) {
                             spotGrid[k].setFill(Color.BLACK);
                         }
