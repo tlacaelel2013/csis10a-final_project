@@ -32,7 +32,7 @@ public class WaterBlobs extends Application {
         primaryStage.setTitle(getClass().getSimpleName());
 
         canvas = new Pane();
-        final Scene scene = new Scene(canvas, 400, 400);
+        final Scene scene = new Scene(canvas, 500, 500);
 
         primaryStage.setTitle("Lake");
         primaryStage.setScene(scene);
@@ -47,11 +47,11 @@ public class WaterBlobs extends Application {
 
         final int row = 40;
         final int col = 40;
-        final int dim = 5;
-        final int pad = 100;
+        final int dim = 10;
+        final int pad = 27;
         final int deltaX = 10;
         final int deltaY = 10;
-        final double rad = 5.0;
+        final double rad = 7.5;
 
         final Spot[] spotGrid = new Spot[row * col];
         for (int i = 1; i <= row; i++) {
@@ -95,24 +95,6 @@ public class WaterBlobs extends Application {
 
 
 
-        /**
-         if (pos-row>=0) {
-         spotGrid[pos-row].activatingSpot(spotGrid, row, col);
-         flag[pos-row] = spotGrid[pos-row].getStatus();
-         }
-         if ((pos+1)/col==pos/col) {
-         spotGrid[pos+1].activatingSpot(spotGrid, row, col);
-         flag[pos+1] = spotGrid[pos+1].getStatus();
-         }
-         if (pos+row<row*col) {
-         spotGrid[pos+row].activatingSpot(spotGrid, row, col);
-         flag[pos+row] = spotGrid[pos+row].getStatus();
-         }
-         if ((((pos - 1) / col) == (pos / col)) && (pos > 0)) {
-         spotGrid[pos-1].activatingSpot(spotGrid, row, col);
-         flag[pos-1] = spotGrid[pos-1].getStatus();
-         }
-         */
         System.out.println("Next Step");
 
 
@@ -175,7 +157,7 @@ public class WaterBlobs extends Application {
 
 
 
-        final Timeline loop = new Timeline(new KeyFrame(Duration.millis(80), new EventHandler<ActionEvent>() {
+        final Timeline loop = new Timeline(new KeyFrame(Duration.millis(100), new EventHandler<ActionEvent>() {
         //final Timeline loop = new Timeline(new KeyFrame(Duration.millis(100), new EventHandler<ActionEvent>() {
 
 
@@ -223,7 +205,7 @@ public class WaterBlobs extends Application {
 
 
 
-                if (timeIndex % 50 == 0) {
+                if (timeIndex % 25 == 0) {
                     //running = false;
                     for (int k = 0; k < row * col; k++) {
 

@@ -126,7 +126,7 @@ class Spot extends Circle {
 
 
         //System.out.println("rgb = " + red + ", " + green + ", " + blue);
-        setFill(Color.rgb((int) (255 * red), (int) (255 * green), (int) (255 * blue)));
+//        setFill(Color.rgb((int) (255 * red), (int) (255 * green), (int) (255 * blue)));
 
         //setFill(newColor);
         //Color[] colormap = new Color[256];
@@ -134,49 +134,66 @@ class Spot extends Circle {
         //    colormap[m] = Color.rgb(255-m,0,m);
         //}
 
+        int spectrumDim = 4;
 
-        Color[] colormap = new Color[3*256];
+        Color[] colormap = new Color[spectrumDim*256];
         for (int m = 0; m < colormap.length; m++) {
-            colormap[m] = Color.rgb((767-m)/3,255-m%128,m/3);
-            //colormap[m] = Color.rgb((767-m)/3,m%256,m/3);
+            colormap[m] = Color.rgb((spectrumDim*256-m-1)/spectrumDim,0,m/spectrumDim); // rainbow colormap
         }
-        /**
-        Color[] colormap = new Color[3*256];
-        for (int m = 0; m < colormap.length/3; m++) {
-            colormap[m] = Color.rgb(0,m,m);
-        }
-        //Color[] colormap = new Color[256];
-        for (int m = colormap.length/3; m < colormap.length*2/3; m++) {
-            //colormap[m] = Color.rgb(255-m+256,255-m+256,m-256);
-            colormap[m] = Color.rgb(m-256,511-m,m-256);
-        }
-        //Color[] colormap = new Color[256];
-        for (int m = colormap.length*2/3; m < colormap.length; m++) {
-            //colormap[m] = Color.rgb(0,255-m+512,m-512);
-            colormap[m] = Color.rgb(767-m,0,m-512);
-        }
-         */
 
-        setFill(colormap[(int) (3*255*(0*red + 0*green + 1*blue))]);
+
+        setFill(colormap[(int) (spectrumDim*255*(0*red + 0*green + 1*blue))]);
+/**
+        // Another colormap
+
+        double minValue = 0.0;
+        double maxValue = 1.0;
+        double value = blue;
+
+        double redValue = 1.0;
+        double greenValue = 1.0;
+        double blueValue = 1.0;
+
+        if (value < minValue) value = minValue;
+        if (value > maxValue) value = maxValue;
+        double deltaValue = maxValue - minValue;
+
+        if (value < (minValue + deltaValue/4)) {
+            redValue = 0;
+            greenValue = 4*(value - minValue)/deltaValue;
+        }
+        else if (value < (minValue + deltaValue/2)) {
+            redValue = 0;
+            blueValue = 1 + 4*(minValue + deltaValue/4 - value)/deltaValue;
+        }
+        else if (value < (minValue + deltaValue*3/4)) {
+            redValue = 4*(value - minValue - deltaValue/2)/deltaValue;
+            blueValue = 0;
+        }
+        else {
+            greenValue = 1 + 4*(minValue + deltaValue*3/4 - value)/deltaValue;
+            blueValue = 0;
+        }
+
+        if (value < (minValue + deltaValue/2)) {
+            greenValue = 2*(value - minValue)/deltaValue;;
+            redValue = 2*(value - minValue)/deltaValue;
+            blueValue = 1 + 2*(minValue - value)/deltaValue;
+        }
+        else {
+            blueValue =  2*(value - minValue - deltaValue/2)/deltaValue;
+            redValue = 1 + 2*(minValue + deltaValue/2 - value)/deltaValue;
+            greenValue = 1;
+        }
+
+        setFill(Color.rgb((int) (255 * redValue), (int) (255 * greenValue), (int) (255 * blueValue)));
+*/
 
         //setFill(colormap[(int) (255*(0.299*red + 0.587*green + 0.114*blue))]);
         //setFill(colormap[(int) (255*(0*red + 0*green + 1*blue))]);
 
         //setFill(colormap[(int) (255*log(255*(0.299*red + 0.587*green + 0.114*blue))/log(256))]);
         //setFill(colormap[(int) (255*(0.333*red + 0.333*green + 0.333*blue))]);
-
-      /*//
-        if (pos-row>=0) spotGrid[pos-row].setFill(Color.rgb((int) red, (int) green, (int) blue));
-        if ((pos+1)/col==pos/col) spotGrid[pos+1].setFill(Color.rgb((int) red, (int) green, (int) blue));
-        if (pos+row<row*col) spotGrid[pos+row].setFill(Color.rgb((int) red, (int) green, (int) blue));
-        if ((((pos - 1) / col) == (pos / col)) && (pos > 0))
-            spotGrid[pos-1].setFill(Color.rgb((int) red, (int) green, (int) blue));
-        /**
-        if (pos-row>=0) spotGrid[pos-row].activatingSpot(spotGrid, row, col);
-        if ((pos+1)/col==pos/col) spotGrid[pos+1].activatingSpot(spotGrid, row, col);
-        if (pos+row<row*col) spotGrid[pos+row].activatingSpot(spotGrid, row, col);
-        if ((((pos - 1) / col) == (pos / col)) && (pos > 0)) spotGrid[pos-1].activatingSpot(spotGrid, row, col);
-        */
 
     }
 
