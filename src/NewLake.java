@@ -1,3 +1,6 @@
+/**
+ * Created by section one on 5/23/14.
+ */
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -6,7 +9,6 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -20,8 +22,7 @@ import java.awt.geom.Point2D;
 /**
  * Created by Luis Arreguin on 5/22/14 (by modifying Brian's example code).
  */
-public class WaterBlobs extends Application {
-    public static Pane canvas;
+public class NewLake extends Application {
 
     public static void main(String[] args) {
         launch(args);
@@ -31,10 +32,10 @@ public class WaterBlobs extends Application {
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle(getClass().getSimpleName());
 
-        canvas = new Pane();
-        final Scene scene = new Scene(canvas, 400, 400);
+        final Group root = new Group();
+        final Scene scene = new Scene(root, 400, 400, Color.ALICEBLUE);
 
-        primaryStage.setTitle("Lake");
+
         primaryStage.setScene(scene);
         primaryStage.show();
 
@@ -43,28 +44,26 @@ public class WaterBlobs extends Application {
         final Text text = new Text(".");
         text.setLayoutX(100);
         text.setLayoutY(100);
-        canvas.getChildren().add(text);
+        root.getChildren().add(text);
 
-        final int row = 40;
-        final int col = 40;
+        final int row = 30;
+        final int col = 30;
         final int dim = 5;
         final int pad = 100;
-        final int deltaX = 10;
-        final int deltaY = 10;
-        final double rad = 50.0;
+        final int deltaX = 20;
+        final int deltaY = 20;
 
         final Spot[] spotGrid = new Spot[row * col];
         for (int i = 1; i <= row; i++) {
             for (int j = 1; j <= col; j++) {
                 int pos = (i - 1) * col + j - 1;
                 spotGrid[pos] = new Spot();
-                spotGrid[pos].setRadius(rad);
                 spotGrid[pos].setCenterX(dim * j + pad + deltaX);
                 spotGrid[pos].setCenterY(dim * i + pad + deltaY);
                 spotGrid[pos].setRadius(2);
                 spotGrid[pos].setFill(Color.FUCHSIA);
                 spotGrid[pos].setPos(pos);
-                canvas.getChildren().add(spotGrid[pos]);
+                //root.getChildren().add(spotGrid[pos]);
 
                 //System.out.println((pos) + ") coordinates: " + spotGrid[pos].getCenterX() +
                 //        ", " + spotGrid[pos].getCenterY());
@@ -75,7 +74,7 @@ public class WaterBlobs extends Application {
             }
         }
 
-        // canvas.getChildren().addAll(spotGrid);
+        root.getChildren().addAll(spotGrid);
 
 
         int pos = 500;
@@ -90,8 +89,6 @@ public class WaterBlobs extends Application {
         //spotGrid[pos].activatingSpot(spotGrid, row, col);
         spotGrid[pos].setStatus(2);
         flag[pos] = spotGrid[pos].getStatus();
-
-
 
 
         /**
@@ -115,8 +112,7 @@ public class WaterBlobs extends Application {
         System.out.println("Next Step");
 
 
-
-        scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        root.setOnMouseClicked(new EventHandler<MouseEvent>() {
             //scene.getOnMouseClicked(new EventHandler<MouseEvent>() {
 
             @Override
@@ -128,20 +124,27 @@ public class WaterBlobs extends Application {
                 int loc = ((i - 1) * col + j - 1);
                 System.out.println("i = " + i + ", j = " + j);
                 System.out.println("loc = " + loc);
+                /**
+                 spotGrid[loc].setFill(Color.RED);
+                 spotGrid[loc].setStatus(2);
+
+                 spotGrid[loc].activatingSpot(spotGrid, row, col);
+                 */
+
+                //root.getChildren().add(spotGrid[loc]);
+                //root.getEffect();
+
+
                 if (loc >= 0 && loc < row * col) {
 
                     spotGrid[loc].setStatus(2);
-                    flag[loc] = 2;
-                    spotGrid[loc].setFill(Color.RED);
-                    spotGrid[loc].setCenterX((event.getY() - pad - deltaX) / dim);
-                    spotGrid[loc].setCenterY((event.getX() - pad - deltaY) / dim);
-
+                    spotGrid[loc].setFill(Color.BLACK);
                     System.out.println("status = " + spotGrid[loc].getStatus());
                     System.out.println("color = " + spotGrid[loc].getFill());
                     System.out.println("coordinates: " + spotGrid[loc].getCenterX() +
                             ", " + spotGrid[loc].getCenterY());
 
-                    //spotGrid[loc].activatingSpot(spotGrid, row, col);
+                    spotGrid[loc].activatingSpot(spotGrid, row, col);
 
                 }
 
@@ -150,32 +153,7 @@ public class WaterBlobs extends Application {
         });
 
 
-
-        scene.setOnMouseMoved(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                //event.getX -> relative to node origin
-                //event.getSceneX -> relative to scene origin
-                //event.getScreenX -> relative to screen origin
-                text.setLayoutX(event.getX());
-                text.setLayoutY(event.getY());
-                //text.setText(".");
-
-
-                int i = (int) ((event.getY() - pad - deltaX) / dim);
-                int j = (int) ((event.getX() - pad - deltaY) / dim);
-                text.setText("." + ((i - 1) * col + j - 1));
-
-            }
-        });
-
-
-
-
-
-
-        final Timeline loop = new Timeline(new KeyFrame(Duration.millis(10), new EventHandler<ActionEvent>() {
-        //final Timeline loop = new Timeline(new KeyFrame(Duration.millis(100), new EventHandler<ActionEvent>() {
+        final Timeline loop = new Timeline(new KeyFrame(Duration.millis(100), new EventHandler<ActionEvent>() {
 
 
             //boolean running = true;
@@ -218,11 +196,7 @@ public class WaterBlobs extends Application {
                 timeIndex++;
                 System.out.println("time = " + timeIndex);
 
-
-
-
-
-                if (timeIndex % 25 == 0) {
+                if (timeIndex % 15 == 0) {
                     //running = false;
                     for (int k = 0; k < row * col; k++) {
 
@@ -233,6 +207,24 @@ public class WaterBlobs extends Application {
                         }
                     }
                 }
+
+                scene.setOnMouseMoved(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        //event.getX -> relative to node origin
+                        //event.getSceneX -> relative to scene origin
+                        //event.getScreenX -> relative to screen origin
+                        text.setLayoutX(event.getX());
+                        text.setLayoutY(event.getY());
+                        //text.setText(".");
+
+
+                        int i = (int) ((event.getY() - pad - deltaX) / dim);
+                        int j = (int) ((event.getX() - pad - deltaY) / dim);
+                        text.setText("." + ((i - 1) * col + j - 1));
+
+                    }
+                });
 
 
             }
