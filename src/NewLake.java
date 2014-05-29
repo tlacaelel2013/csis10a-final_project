@@ -46,12 +46,20 @@ public class NewLake extends Application {
         text.setLayoutY(100);
         root.getChildren().add(text);
 
+        final int spectrumDim = 500;
+
+        final Color[] colormap = new Color[spectrumDim*256];
+        for (int m = 0; m < colormap.length; m++) {
+            colormap[m] = Color.rgb((spectrumDim*256-m-1)/spectrumDim,0,m/spectrumDim); // rainbow colormap
+        }
+
         final int row = 30;
         final int col = 30;
         final int dim = 5;
         final int pad = 100;
         final int deltaX = 20;
         final int deltaY = 20;
+        final int rad = 4;
 
         final Spot[] spotGrid = new Spot[row * col];
         for (int i = 1; i <= row; i++) {
@@ -60,7 +68,7 @@ public class NewLake extends Application {
                 spotGrid[pos] = new Spot();
                 spotGrid[pos].setCenterX(dim * j + pad + deltaX);
                 spotGrid[pos].setCenterY(dim * i + pad + deltaY);
-                spotGrid[pos].setRadius(2);
+                spotGrid[pos].setRadius(rad);
                 spotGrid[pos].setFill(Color.FUCHSIA);
                 spotGrid[pos].setPos(pos);
                 //root.getChildren().add(spotGrid[pos]);
@@ -80,6 +88,7 @@ public class NewLake extends Application {
         int pos = 500;
         final int flag[] = new int[row * col];
 
+        spotGrid[pos].setRadius(2);
         spotGrid[pos].setFill(Color.BLACK);
         System.out.println("coordinates: " + spotGrid[pos].getCenterX() + ", " + spotGrid[pos].getCenterY());
         System.out.println("status = " + spotGrid[pos].getStatus());
@@ -144,7 +153,7 @@ public class NewLake extends Application {
                     System.out.println("coordinates: " + spotGrid[loc].getCenterX() +
                             ", " + spotGrid[loc].getCenterY());
 
-                    spotGrid[loc].activatingSpot(spotGrid, row, col);
+                    spotGrid[loc].activatingSpot(spotGrid, row, col, spectrumDim, colormap);
 
                 }
 
@@ -153,7 +162,7 @@ public class NewLake extends Application {
         });
 
 
-        final Timeline loop = new Timeline(new KeyFrame(Duration.millis(100), new EventHandler<ActionEvent>() {
+        final Timeline loop = new Timeline(new KeyFrame(Duration.millis(80), new EventHandler<ActionEvent>() {
 
 
             //boolean running = true;
@@ -168,7 +177,8 @@ public class NewLake extends Application {
 
                     if (flag[k] > 0) {
 
-                        if (flag[k] == 1) spotGrid[k].activatingSpot(spotGrid, row, col);
+                        if (flag[k] == 1) spotGrid[k].activatingSpot(spotGrid, row, col,
+                                spectrumDim, colormap);
                         int act = 1;
 
 
@@ -196,7 +206,7 @@ public class NewLake extends Application {
                 timeIndex++;
                 System.out.println("time = " + timeIndex);
 
-                if (timeIndex % 15 == 0) {
+                if (timeIndex % 25 == 0) {
                     //running = false;
                     for (int k = 0; k < row * col; k++) {
 

@@ -68,7 +68,7 @@ class Spot extends Circle {
     }
 
 
-    public void activatingSpot(Spot[] spotGrid, int row, int col) {
+    public void activatingSpot(Spot[] spotGrid, int row, int col, int spectrumDim, Color[] colormap) {
 
         setStatus(1);
         int pos = getPos();
@@ -133,14 +133,14 @@ class Spot extends Circle {
         //for (int m = 0; m < colormap.length; m++) {
         //    colormap[m] = Color.rgb(255-m,0,m);
         //}
-
+/**
         int spectrumDim = 4;
 
         Color[] colormap = new Color[spectrumDim*256];
         for (int m = 0; m < colormap.length; m++) {
             colormap[m] = Color.rgb((spectrumDim*256-m-1)/spectrumDim,0,m/spectrumDim); // rainbow colormap
         }
-
+*/
 
         setFill(colormap[(int) (spectrumDim*255*(0*red + 0*green + 1*blue))]);
 /**

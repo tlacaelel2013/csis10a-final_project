@@ -32,7 +32,7 @@ public class WaterBlobs extends Application {
         primaryStage.setTitle(getClass().getSimpleName());
 
         canvas = new Pane();
-        final Scene scene = new Scene(canvas, 500, 500);
+        final Scene scene = new Scene(canvas, 635, 635);
 
         primaryStage.setTitle("Lake");
         primaryStage.setScene(scene);
@@ -45,13 +45,20 @@ public class WaterBlobs extends Application {
         text.setLayoutY(100);
         canvas.getChildren().add(text);
 
-        final int row = 40;
-        final int col = 40;
-        final int dim = 10;
-        final int pad = 27;
+        final int spectrumDim = 2048;
+
+        final Color[] colormap = new Color[spectrumDim*256];
+        for (int m = 0; m < colormap.length; m++) {
+            colormap[m] = Color.rgb((spectrumDim*256-m-1)/spectrumDim,0,m/spectrumDim); // rainbow colormap
+        }
+
+        final int row = 50;
+        final int col = 50;
+        final int dim = 12;
+        final int pad = 0;
         final int deltaX = 10;
         final int deltaY = 10;
-        final double rad = 7.5;
+        final double rad = 8.5;
 
         final Spot[] spotGrid = new Spot[row * col];
         for (int i = 1; i <= row; i++) {
@@ -78,7 +85,7 @@ public class WaterBlobs extends Application {
         // canvas.getChildren().addAll(spotGrid);
 
 
-        int pos = 500;
+        int pos = 575;
         final int flag[] = new int[row * col];
 
         spotGrid[pos].setRadius(2);
@@ -115,7 +122,8 @@ public class WaterBlobs extends Application {
 
                     spotGrid[loc].setStatus(2);
                     flag[loc] = 2;
-                    spotGrid[loc].setFill(Color.BLUE);
+                    spotGrid[loc].setFill(Color.WHITE);
+                    spotGrid[loc].setRadius(0);
                     spotGrid[loc].setCenterX((event.getY() - pad - deltaX) / dim);
                     spotGrid[loc].setCenterY((event.getX() - pad - deltaY) / dim);
 
@@ -173,7 +181,8 @@ public class WaterBlobs extends Application {
 
                     if (flag[k] > 0) {
 
-                        if (flag[k] == 1) spotGrid[k].activatingSpot(spotGrid, row, col);
+                        if (flag[k] == 1) spotGrid[k].activatingSpot(spotGrid, row, col,
+                                spectrumDim, colormap);
                         int act = 1;
 
 
