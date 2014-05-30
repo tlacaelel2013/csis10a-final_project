@@ -72,7 +72,7 @@ class Spot extends Circle {
 
         setStatus(1);
         int pos = getPos();
-        double denom = 6;
+        double denom = 4.05;
 
         // System.out.println("position = " + pos);
 

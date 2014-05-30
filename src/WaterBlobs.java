@@ -45,7 +45,7 @@ public class WaterBlobs extends Application {
         text.setLayoutY(100);
         canvas.getChildren().add(text);
 
-        final int spectrumDim = 2048;
+        final int spectrumDim = 8192;
 
         final Color[] colormap = new Color[spectrumDim*256];
         for (int m = 0; m < colormap.length; m++) {
@@ -58,7 +58,7 @@ public class WaterBlobs extends Application {
         final int pad = 0;
         final int deltaX = 10;
         final int deltaY = 10;
-        final double rad = 8.5;
+        final double rad = 8.15;
 
         final Spot[] spotGrid = new Spot[row * col];
         for (int i = 1; i <= row; i++) {
@@ -85,19 +85,28 @@ public class WaterBlobs extends Application {
         // canvas.getChildren().addAll(spotGrid);
 
 
-        int pos = 575;
+        int initPos = 575;
+        int pos;
         final int flag[] = new int[row * col];
 
-        spotGrid[pos].setRadius(2);
-        spotGrid[pos].setFill(Color.BLACK);
-        System.out.println("coordinates: " + spotGrid[pos].getCenterX() + ", " + spotGrid[pos].getCenterY());
-        System.out.println("status = " + spotGrid[pos].getStatus());
-        System.out.println("radius = " + spotGrid[pos].getRadius());
+
+        for (int p = 0; p < 2; p++) {
+            for (int q = 0; q < 2; q++) {
+                pos = initPos + p + col*q;
+                spotGrid[pos].setRadius(rad*1/4);
+                spotGrid[pos].setFill(Color.WHITE);
+                System.out.println("coordinates: " + spotGrid[pos].getCenterX() + ", " + spotGrid[pos].getCenterY());
+                System.out.println("status = " + spotGrid[pos].getStatus());
+                System.out.println("radius = " + spotGrid[pos].getRadius());
 
 
-        //spotGrid[pos].activatingSpot(spotGrid, row, col);
-        spotGrid[pos].setStatus(2);
-        flag[pos] = spotGrid[pos].getStatus();
+                //spotGrid[pos].activatingSpot(spotGrid, row, col);
+                spotGrid[pos].setStatus(2);
+                flag[pos] = spotGrid[pos].getStatus();
+
+            }
+        }
+
 
 
 
@@ -218,10 +227,10 @@ public class WaterBlobs extends Application {
                     //running = false;
                     for (int k = 0; k < row * col; k++) {
 
-                        if (flag[k] == 2 && spotGrid[k].getFill().equals(Color.BLACK)) {
-                            spotGrid[k].setFill(Color.BLUE);
-                        } else if (flag[k] == 2 && !spotGrid[k].getFill().equals(Color.BLACK)) {
-                            spotGrid[k].setFill(Color.BLACK);
+                        if (flag[k] == 2 && spotGrid[k].getFill().equals(Color.YELLOW)) {
+                            spotGrid[k].setFill(Color.WHITE);
+                        } else if (flag[k] == 2 && !spotGrid[k].getFill().equals(Color.YELLOW)) {
+                            spotGrid[k].setFill(Color.YELLOW);
                         }
                     }
                 }
