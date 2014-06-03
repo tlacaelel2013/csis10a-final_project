@@ -1,19 +1,16 @@
-# CSIS-10A Final Project -- some ideas
+# CSIS-10A Final Project -- 
+
+Two projects are included in this section. The first one deals with waves and the second one is a first attempt to simplify algebraic expressions.
 
 ## [1] Waves.
 
-I would like to create a program that simulates a wave traveling across the screen.
-Even though the mathematical framework could be complicated, I think there are simple ways to compute the distribution of temperature, for example, throughout a rectangle-shaped area given the initial state and the boundary conditions.
+There are two versions for the project dealing with waves. In the first instance, I wrote Java code for a low-resolution model that uses the gridworld classes. All new classes extending the gridworld classes are located in this folder. Class WaveRunner is the driver for classes BoundarySpot and Wavelike.
 
-The difficulty I see for this case is how to change the color of every pixel in my screen as a function of my variable of interest (temp) and how to get the coordinates of the location where the user clicks the mouse.
+On the other hand, a model with improved graphical resolution (thanks to JavaFX) was created and is located in folder src. There are three classes, WaterBlobs, Lake, and Spot, the first two being independent drivers for the model. The only difference between them is that WaterBlobs allows the user to activate waves with a mouse click. The class Spot defines a wave as a perturbation of the color of the environment ("the lake").
 
-## [2] Tunnel.
+## [2] Algebrator.
 
-I would be interested in drawing a tunnel in perspective simulating the view a user would have when driving a car inside of the tunnel.
-The user might control the speed at which he or she approaches the tunnel.
+Based on class Term, this project is aimed to simplify algebraic expressions by looking at the form of both the coefficients and the variables. Just run class Algebrator to start playing with algebraic expressions.
 
-## [3] Simplifying algebraic expressions.
-
-This might be a command line program for the user to input an algebraic expression to be simplified.
-In its first version, program Algebrator will only add and multiply like terms.
+Have fun!
 
